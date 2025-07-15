@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { AlertCircle, Download, User, MessageSquare, Quote } from "lucide-react"
+import { AlertCircle, Download, User, MessageSquare, Quote, Info } from "lucide-react"
 
 const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
   useState(() => {
@@ -28,20 +28,16 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
               </linearGradient>
             </defs>
 
-            {/* Reddit-style robot head */}
             <circle cx="250" cy="200" r="80" fill="white" />
             <circle cx="220" cy="180" r="15" fill="#FF4500" />
             <circle cx="280" cy="180" r="15" fill="#FF4500" />
             <path d="M230 220 Q250 240 270 220" stroke="#FF4500" strokeWidth="4" fill="none" />
 
-            {/* Antenna */}
             <line x1="250" y1="120" x2="250" y2="80" stroke="white" strokeWidth="6" />
             <circle cx="250" cy="80" r="12" fill="white" />
 
-            {/* Body */}
             <rect x="200" y="280" width="100" height="120" rx="20" fill="white" />
 
-            {/* Arms */}
             <rect x="150" y="300" width="50" height="20" rx="10" fill="white" />
             <rect x="300" y="300" width="50" height="20" rx="10" fill="white" />
 
@@ -107,7 +103,6 @@ interface PersonaResult {
 const PersonaCard = ({ persona, username }: { persona: StructuredPersona; username: string }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-      {/* Header Section */}
       <div className="bg-gradient-to-r from-orange-500 to-red-500 p-6 text-white">
         <div className="flex items-center gap-6">
           <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
@@ -121,7 +116,6 @@ const PersonaCard = ({ persona, username }: { persona: StructuredPersona; userna
       </div>
 
       <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Demographics */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-800 border-b-2 border-orange-500 pb-2">DEMOGRAPHICS</h3>
           <div className="space-y-2 text-sm">
@@ -151,7 +145,6 @@ const PersonaCard = ({ persona, username }: { persona: StructuredPersona; userna
             </div>
           </div>
 
-          {/* Personality Traits */}
           <div className="mt-6">
             <h4 className="text-sm font-semibold text-gray-600 mb-3">PERSONALITY TRAITS</h4>
             <div className="flex flex-wrap gap-2">
@@ -164,7 +157,6 @@ const PersonaCard = ({ persona, username }: { persona: StructuredPersona; userna
           </div>
         </div>
 
-        {/* Motivations & Personality */}
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-semibold text-orange-600 border-b-2 border-orange-500 pb-2 mb-4">
@@ -220,7 +212,6 @@ const PersonaCard = ({ persona, username }: { persona: StructuredPersona; userna
           </div>
         </div>
 
-        {/* Behaviors, Frustrations, Goals */}
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-semibold text-orange-600 border-b-2 border-orange-500 pb-2 mb-4">
@@ -266,7 +257,6 @@ const PersonaCard = ({ persona, username }: { persona: StructuredPersona; userna
         </div>
       </div>
 
-      {/* Quote Section */}
       <div className="bg-orange-500 p-4 text-white">
         <div className="flex items-center gap-3">
           <Quote className="w-6 h-6 text-white/80" />
@@ -291,7 +281,6 @@ export default function RedditPersonaAnalyzer() {
       return
     }
 
-    // Validate Reddit URL format
     const redditUrlPattern = /^https?:\/\/(www\.)?reddit\.com\/user\/[\w-]+\/?$/
     if (!redditUrlPattern.test(profileUrl)) {
       setError("Please enter a valid Reddit profile URL (e.g., https://www.reddit.com/user/username/)")
@@ -447,6 +436,20 @@ Processing Time: ${result.metadata.processingTime}ms
                   />
                   <p className="text-xs text-gray-500 mt-1">Example: https://www.reddit.com/user/kojied/</p>
                 </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <Info className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <div className="text-xs text-blue-700 dark:text-blue-300">
+                      <p className="font-medium mb-1">Note about Reddit API limitations:</p>
+                      <p>
+                        Due to Reddit's API restrictions, the tool may use demonstration data for some profiles. The
+                        persona analysis methodology remains the same and showcases the full capabilities of the system.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {error && (
                   <div className="text-red-500 text-sm flex items-center gap-2 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
                     <AlertCircle className="w-4 h-4" />
@@ -463,10 +466,13 @@ Processing Time: ${result.metadata.processingTime}ms
                 {isLoading && (
                   <div className="text-center text-sm text-gray-500">
                     <div className="animate-pulse">
-                       Scraping posts and comments...
-                      <br /> Building structured persona...
-                      <br /> Analyzing personality traits...
-                      <br /> Generating citations...
+                      Scraping posts and comments...
+                      <br />
+                      Building structured persona...
+                      <br />
+                      Analyzing personality traits...
+                      <br />
+                      Generating citations...
                     </div>
                   </div>
                 )}
@@ -475,15 +481,14 @@ Processing Time: ${result.metadata.processingTime}ms
           </div>
         ) : (
           <div className="max-w-7xl mx-auto space-y-6">
-            {/* Action Bar */}
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
-                  
+               
                   {result.metadata.totalPosts} posts
                 </span>
                 <span className="flex items-center gap-1"> {result.metadata.totalComments} comments</span>
-                <span> {result.metadata.analysisDate}</span>
+                <span>{result.metadata.analysisDate}</span>
               </div>
               <div className="flex gap-2">
                 <Button onClick={downloadPersona} variant="outline" className="flex items-center gap-2 bg-transparent">
@@ -496,29 +501,28 @@ Processing Time: ${result.metadata.processingTime}ms
               </div>
             </div>
 
-            {/* Content Tabs */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-4 bg-white dark:bg-gray-800">
                 <TabsTrigger
                   value="persona"
                   className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
                 >
-                   User Persona
+                  User Persona
                 </TabsTrigger>
                 <TabsTrigger value="posts" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
-                   Posts ({result.metadata.totalPosts})
+                  Posts ({result.metadata.totalPosts})
                 </TabsTrigger>
                 <TabsTrigger
                   value="comments"
                   className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
                 >
-                   Comments ({result.metadata.totalComments})
+                  Comments ({result.metadata.totalComments})
                 </TabsTrigger>
                 <TabsTrigger
                   value="citations"
                   className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
                 >
-                   Citations ({result.citations.length})
+                  Citations ({result.citations.length})
                 </TabsTrigger>
               </TabsList>
 
@@ -530,7 +534,7 @@ Processing Time: ${result.metadata.processingTime}ms
                 <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg">
                   <CardHeader>
                     <CardTitle className="text-blue-600 dark:text-blue-400">
-                       Analyzed Posts ({result.posts.length})
+                      Analyzed Posts ({result.posts.length})
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 max-h-96 overflow-y-auto">
@@ -541,7 +545,7 @@ Processing Time: ${result.metadata.processingTime}ms
                           {post.content?.substring(0, 200)}...
                         </p>
                         <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                          <span> {post.score} upvotes</span>
+                          <span>{post.score} upvotes</span>
                           <span>{post.comments} comments</span>
                           <span>{post.created}</span>
                         </div>
@@ -555,7 +559,7 @@ Processing Time: ${result.metadata.processingTime}ms
                 <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg">
                   <CardHeader>
                     <CardTitle className="text-purple-600 dark:text-purple-400">
-                       Analyzed Comments ({result.comments.length})
+                      Analyzed Comments ({result.comments.length})
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 max-h-96 overflow-y-auto">
@@ -565,9 +569,9 @@ Processing Time: ${result.metadata.processingTime}ms
                           {comment.content?.substring(0, 300)}...
                         </p>
                         <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                          <span> {comment.score} upvotes</span>
-                          <span> {comment.created}</span>
-                          <span>r/{comment.subreddit}</span>
+                          <span>{comment.score} upvotes</span>
+                          <span>{comment.created}</span>
+                          <span> r/{comment.subreddit}</span>
                         </div>
                       </div>
                     ))}
@@ -579,7 +583,7 @@ Processing Time: ${result.metadata.processingTime}ms
                 <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg">
                   <CardHeader>
                     <CardTitle className="text-green-600 dark:text-green-400">
-                       Citations & Evidence ({result.citations.length})
+                      Citations & Evidence ({result.citations.length})
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 max-h-96 overflow-y-auto">
